@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-test:
+    name: Lint and direct-mode tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      PYTHONIOENCODING: utf-8
+      GENVM_VERSION: v0.6.0-rc8
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-test.txt
+
+      - name: Install pinned test toolchain
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements-test.txt
+
+      - name: Lint and validate contract
+        run: genvm-lint check --json contracts/PolicyRuleReceipt.py
+
+      - name: Run direct-mode tests
+        run: gltest tests/direct -v

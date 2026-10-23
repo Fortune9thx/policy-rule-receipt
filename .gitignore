@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# Test and deployment artifacts
+artifacts/
+*.log
+
+# Local environment and secrets
+.env
+.env.*
+*.keystore
+*.key
+*.pem
+prr_smoke_password.txt
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
